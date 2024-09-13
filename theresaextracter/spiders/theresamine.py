@@ -32,7 +32,7 @@ class TheresamineSpider(scrapy.Spider):
         if self.product_start < self.product_end:
 
             next_page = response.xpath(
-                '//a[containes(@class,"action next")]/@href'
+                '//a[containes(@class,"next__page")]/@href'
             ).get()
 
             if next_page:
@@ -47,22 +47,22 @@ class TheresamineSpider(scrapy.Spider):
                 '//div[@class="breadcrumbs"]/a/text()'
             ).getall()
         item['image_url']=response.xpath(
-                 '//img[@class=""item__images__image"]/@src'
+                 '//img[@class="item__images__image"]/@src'
              ).get(),
         item['brand']=response.xpath(
-                '//div[@class="item__info__header__designer "]/text()'
+                '//div[@class="product__area__branding__designer "]/text()'
             ).get(),
         item['product_name']=response.xpath(
-                 '//div[@class="item__info__name"]/a/text()'
+                 '//div[@class="product__area__branding__name"]/text()'
              ).get(),
         item['listing_price']=response.xpath(
-                 '///span[@class="pricing__prices__value pricing__prices__value--original"/span[@class="pricing__prices__price"]/text()'
+                 '//span[@class="pricing__prices__value pricing__prices__value--original"]//span[@class="pricing__prices__price"]/text()'
              ).get(),
         item['offer_price']=response.xpath(
-                 '//span[@class="pricing__prices__value pricing__prices__value--discount"]/span[@class="pricing__prices__price"/text()'
+                 '//span[@class="pricing__prices__value pricing__prices__value--discount"]//span[@class="pricing__prices__price"]/text()'
             ).get(),
         item['discount']=response.xpath(
-                 '//div[@class="pricing__info"]/span[@class="pricing__info__percentage"/text()'
+                 '//div[@class="pricing__info"]//span[@class="pricing__info__percentage"]/text()'
              ).get(),
         item['product_id']=response.xpath(
                  '//div[@class="accordion__body__content"]//ul/li[last()]/text()'
@@ -71,7 +71,7 @@ class TheresamineSpider(scrapy.Spider):
                  '//div[@class="item__sizes"]/span[@class="item__sizes__size"]/text()'
              ).getall(),
         item['description']= response.xpath(
-                 '//div[@class="accordion__body__content"]/p/text()'
+                 '//div[@class="accordion__body accordion__body--visible"]/p/text()'
             ).get(),
         item['other_images']=response.xpath(
                  '//div[contains(@class,"zoomermodal__main")]/img/@src'
