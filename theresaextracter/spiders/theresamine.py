@@ -32,7 +32,7 @@ class TheresamineSpider(scrapy.Spider):
         if self.product_start < self.product_end:
 
             next_page = response.xpath(
-                '//a[containes(@class,"next__page")]/@href'
+                '//a[contains(@class,"button--active")]/@href'
             ).get()
 
             if next_page:
@@ -50,7 +50,7 @@ class TheresamineSpider(scrapy.Spider):
                  '//img[@class="item__images__image"]/@src'
              ).get(),
         item['brand']=response.xpath(
-                '//div[@class="product__area__branding__designer "]/text()'
+                '//div[@class="product__area__branding__designer"]/a[@class="product__area__branding__designer__link "]/text()'
             ).get(),
         item['product_name']=response.xpath(
                  '//div[@class="product__area__branding__name"]/text()'
@@ -66,7 +66,7 @@ class TheresamineSpider(scrapy.Spider):
              ).get(),
         item['product_id']=response.xpath(
                  '//div[@class="accordion__body__content"]//ul/li[last()]/text()'
-             ),
+             ).get(),
         item['sizes']=response.xpath(
                  '//div[@class="item__sizes"]/span[@class="item__sizes__size"]/text()'
              ).getall(),
@@ -80,38 +80,4 @@ class TheresamineSpider(scrapy.Spider):
 
 
 
-        # yield {
-        #     "breadcrumbs": response.xpath(
-        #         '//div[@class="breadcrumbs"]/a/text()'
-        #     ).getall(),
-        #     "image_url": response.xpath(
-        #         '//img[@class=""item__images__image"]/@src'
-        #     ).get(),
-        #     "brand": response.xpath(
-        #         '//div[@class="item__info__header__designer "]/text()'
-        #     ).get(),
-        #     "product_name": response.xpath(
-        #         '//div[@class="item__info__name"]/a/text()'
-        #     ).get(),
-        #     "listing_price": response.xpath(
-        #         '///span[@class="pricing__prices__value pricing__prices__value--original"/span[@class="pricing__prices__price"]/text()'
-        #     ).get(),
-        #     "offer_price": response.xpath(
-        #         '//span[@class="pricing__prices__value pricing__prices__value--discount"]/span[@class="pricing__prices__price"/text()'
-        #     ).get(),
-        #     "discount": response.xpath(
-        #         '//div[@class="pricing__info"]/span[@class="pricing__info__percentage"/text()'
-        #     ).get(),
-        #     "product_id": response.xpath(
-        #         '//div[@class="accordion__body__content"]//ul/li[last()]/text()'
-        #     ),
-        #     "sizes": response.xpath(
-        #         '//div[@class="item__sizes"]/span[@class="item__sizes__size"]/text()'
-        #     ).getall(),
-        #     "description": response.xpath(
-        #         '//div[@class="accordion__body__content"]/p/text()'
-        #     ).get(),
-        #     "other_images": response.xpath(
-        #         '//div[contains(@class,"zoomermodal__main")]/img/@src'
-        #     ),
-        # }
+     
